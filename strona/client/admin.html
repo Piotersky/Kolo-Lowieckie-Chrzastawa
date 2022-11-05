@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link type="text/css" rel="stylesheet" href="client/css/admin.css" />
+    <link type="image/x-icon" rel="icon" href="client/img/koo_Ch.ico" />
+
+    <title>Panel administratora</title>
+  </head>
+  <body>
+    <div id="login">
+      <h1>Zaloguj się:</h1>
+      <p id="info"></p>
+      <input type="password" id="password" placeholder="Hasło" />
+      <button id="login_btn">Zaloguj się</button>
+    </div>
+
+    <main>
+      <ul>
+        <li>
+          <h1>Struktura</h1>
+
+          <input type="text" placeholder="Wpisz numer struktury" id="numer" />
+          <br />Podpowiedź: Jeżeli jest nieponumerowana zostaw to pole puste
+
+          <br /><br />Rodzaj struktury<select id="rodzaj">
+            <option value="1">Ambona</option>
+            <option value="2">Zwyżka</option>
+            <option value="3">Wysiadka</option>
+          </select>
+
+          <br /><br />Wybierz polowanie na którym została znaleziona<select
+            id="polowanie"
+          ></select>
+
+          <br />
+          <br><input type="file" id="file" value="Wybierz zdjęcie" accept="image/*"/>
+
+          <br><br>Współrzędne x <input type="text" placeholder="np. 21.546873" id="coord_x"/>
+          <br>Współrzędne y <input placeholder="np. 56.68975" type="text" id="coord_y"/>
+
+          <br /><br /><br /><button id="add_struktura_btn">Dodaj!</button>
+        </li>
+        <li>
+          <h1>Polowanie</h1>
+
+          <input type="text" placeholder="Wpisz numer polowania" id="s" />
+
+          <button>Dodaj!</button>
+        </li>
+      </ul>
+    </main>
+
+    <script src="http://192.168.1.106:80/socket.io/socket.io.js"></script>
+    <script src="client/js/admin.js"></script>
+  </body>
+</html>
