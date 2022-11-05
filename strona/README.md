@@ -1,2 +1,0 @@
-# Kolo lowieckie chrzastawa
- 
