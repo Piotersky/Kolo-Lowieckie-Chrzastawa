@@ -50,11 +50,11 @@ io.on("connection", function (socket) {
   const exists = promisify(fs.exists);
 
   data_dir =
-    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Koło Łowieckie/data/";
+    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Kolo-Lowieckie-Chrzastawa/data/";
   struktury_dir =
-    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Koło Łowieckie/data/struktury/";
+    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Kolo-Lowieckie-Chrzastawa/data/struktury/";
   polowania_dir =
-    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Koło Łowieckie/data/polowania";
+    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Kolo-Lowieckie-Chrzastawa/data/polowania";
 
   if (socket.handshake.headers["subpage"] === "struktury") {
     async function getBuffer(filePath) {
