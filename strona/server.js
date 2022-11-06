@@ -50,11 +50,11 @@ io.on("connection", function (socket) {
   const exists = promisify(fs.exists);
 
   data_dir =
-    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Kolo-Lowieckie-Chrzastawa/data/";
+    "../data/";
   struktury_dir =
-    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Kolo-Lowieckie-Chrzastawa/data/struktury/";
+    "../data/struktury/";
   polowania_dir =
-    "C:/Users/piotr/OneDrive/Pulpit/programowanie/Kolo-Lowieckie-Chrzastawa/data/polowania";
+    "../data/polowania";
 
   if (socket.handshake.headers["subpage"] === "struktury") {
     async function getBuffer(filePath) {
@@ -75,7 +75,7 @@ io.on("connection", function (socket) {
       const buf2 = await getBuffer(`${img_path}.png`);
 
       const data = {
-        number: json.numer,
+        number: (json.numer || file),
         image: buf1 || buf2,
         buffer: (buf1 || buf2).toString("base64"),
         rodzaj: json.rodzaj,
@@ -108,12 +108,14 @@ io.on("connection", function (socket) {
 
     socket.on("search", function (data) {
 
-      function another(multiple) {
+      function another(multiple, file) {
         if (data.val == "n") {
           if (multiple) {
             files(function (file) {
+              let sraka = "ss"
+              sraka.
               send(file, function (data) {
-                if (data.numer == "") {
+                if (data.numer.startsWith("n")) {
                   socket.emit("struktura", data);
                 }
               });
@@ -121,7 +123,7 @@ io.on("connection", function (socket) {
           }
           if (!multiple) {
             send(file, function (data) {
-              if (data.numer == "") {
+              if (data.numer.startsWith("n")) {
                 socket.emit("struktura", data);
               }
             });
@@ -141,6 +143,7 @@ io.on("connection", function (socket) {
               socket.emit("struktura", data);
             });
           }
+          return;
         }
       }
 
@@ -152,7 +155,7 @@ io.on("connection", function (socket) {
             const content = await readFile(struktury_dir + file, "utf8");
             const json = JSON.parse(content);
             if (json.rodzaj == i) {
-              another(false);
+              another(false, file);
 
               if (data.val == json.numer) {
                 send(file, function (data) {
@@ -167,9 +170,10 @@ io.on("connection", function (socket) {
 
       //console.log(data.rodzaj)
 
-      another(true);
+      another(true, "");
 
       file = data.val + ".json";
+      console.log("S")
       if (!fs.existsSync(struktury_dir + file)) return;
 
       send(file, function (data) {
@@ -198,10 +202,8 @@ io.on("connection", function (socket) {
       if (nazwa == "") {
         last = fs.readFileSync(`${data_dir}last.txt`);
         nazwa = parseInt(last + 1);
-        nazwa = nazwa.toString() + "n";
+        nazwa = "n" + nazwa.toString();
       }
-
-      if (data.numer == "") numer = "bez numeru";
 
       jsonString = {
         numer: numer,
@@ -209,13 +211,11 @@ io.on("connection", function (socket) {
         polowanie: data.polowanie,
       };
 
-      console.log(jsonString);
-
       fs.appendFileSync(
         `${struktury_dir}${nazwa}.json`,
         JSON.stringify(jsonString)
       );
-      fs.appendFileSync(`${struktury_dir}${nazwa}.jpgs`, data.img);
+      fs.appendFileSync(`${struktury_dir}${nazwa}.jpg`, data.img);
     });
 
     setTimeout(() => {s
