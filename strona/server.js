@@ -49,12 +49,9 @@ io.on("connection", function (socket) {
   const readFile = promisify(fs.readFile);
   const exists = promisify(fs.exists);
 
-  data_dir =
-    "../data/";
-  struktury_dir =
-    "../data/struktury/";
-  polowania_dir =
-    "../data/polowania";
+  data_dir = "../data/";
+  struktury_dir = "../data/struktury/";
+  polowania_dir = "../data/polowania";
 
   if (socket.handshake.headers["subpage"] === "struktury") {
     async function getBuffer(filePath) {
@@ -75,8 +72,7 @@ io.on("connection", function (socket) {
       const buf2 = await getBuffer(`${img_path}.png`);
 
       const data = {
-        number: (json.numer || file),
-        image: buf1 || buf2,
+        number: json.numer || file,
         buffer: (buf1 || buf2).toString("base64"),
         rodzaj: json.rodzaj,
         polowanie: json.polowanie,
@@ -107,14 +103,12 @@ io.on("connection", function (socket) {
     });
 
     socket.on("search", function (data) {
-
       function another(multiple, file) {
         if (data.val == "n") {
           if (multiple) {
             files(function (file) {
-              let sraka = "ss"
-              sraka.
-              send(file, function (data) {
+              let sraka = "ss";
+              sraka.send(file, function (data) {
                 if (data.numer.startsWith("n")) {
                   socket.emit("struktura", data);
                 }
@@ -173,7 +167,7 @@ io.on("connection", function (socket) {
       another(true, "");
 
       file = data.val + ".json";
-      console.log("S")
+      console.log("S");
       if (!fs.existsSync(struktury_dir + file)) return;
 
       send(file, function (data) {
@@ -215,10 +209,20 @@ io.on("connection", function (socket) {
         `${struktury_dir}${nazwa}.json`,
         JSON.stringify(jsonString)
       );
-      fs.appendFileSync(`${struktury_dir}${nazwa}.jpg`, data.img);
+
+      let base64 = data.img.split(";base64,").pop();
+
+      fs.writeFile(
+        `${struktury_dir}${nazwa}.jpg`,
+        base64,
+        { encoding: "base64" },
+        function (err) {
+          console.log("File created");
+        }
+      );
     });
 
-    setTimeout(() => {s
+    setTimeout(() => {
       if (!logged) {
         socket.disconnect(true);
         socket.client._remove(socket.id);
@@ -229,8 +233,6 @@ io.on("connection", function (socket) {
 
 port = 80 || process.env.port;
 
-ip = "192.168.1.106";
-
-server.listen(port, ip, () => {
-  console.log(`Listening on ${ip}:${port}`);
+server.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });

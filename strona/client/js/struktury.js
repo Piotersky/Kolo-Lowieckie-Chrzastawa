@@ -19,7 +19,7 @@ socket.on("struktura", (data) => {
     text = "Wysiadka " + number;
   }
 
-  if (!data.image) {
+  if (data.buffer == "") {
     parentDiv.innerHTML +=
       '<div class="struktura" id="div' +
       number +
@@ -69,7 +69,6 @@ socket.on("struktura", (data) => {
   console.log(data);
 });
 
-//const struktury = document.querySelectorAll('.struktura');
 var szukaj = document.getElementById("szukaj");
 
 function hover(numer) {
