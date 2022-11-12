@@ -90,3 +90,22 @@ button {
 {
   border: 1px groove rgb(0, 20, 109);   
 }
+
+#data {
+  width: 250px;
+}
+#teren {
+  width: 425px;
+}
+#mysliwi {
+  width: 300px;
+}
+#budzet {
+  width: 200px;
+}
+#dystans {
+  width: 375px;
+}
+#znalezione_struktury {
+  width: 430px;
+}

@@ -51,7 +51,7 @@ io.on("connection", function (socket) {
 
   data_dir = "../data/";
   struktury_dir = "../data/struktury/";
-  polowania_dir = "../data/polowania";
+  polowania_dir = "../data/polowania/";
 
   if (socket.handshake.headers["subpage"] === "struktury") {
     async function getBuffer(filePath) {
@@ -72,13 +72,14 @@ io.on("connection", function (socket) {
       const buf2 = await getBuffer(`${img_path}.png`);
 
       const data = {
-        number: json.numer || file,
+        numer: json.numer || file,
         buffer: (buf1 || buf2).toString("base64"),
         rodzaj: json.rodzaj,
         polowanie: json.polowanie,
       };
 
       fun(data);
+      //console.log(data.numer)
       //socket.emit("struktura", data);
     }
 
@@ -107,8 +108,7 @@ io.on("connection", function (socket) {
         if (data.val == "n") {
           if (multiple) {
             files(function (file) {
-              let sraka = "ss";
-              sraka.send(file, function (data) {
+              send(file, function (data) {
                 if (data.numer.startsWith("n")) {
                   socket.emit("struktura", data);
                 }
@@ -117,7 +117,8 @@ io.on("connection", function (socket) {
           }
           if (!multiple) {
             send(file, function (data) {
-              if (data.numer.startsWith("n")) {
+              console.log(data.numer)
+              if (data.number.startsWith("n")) {
                 socket.emit("struktura", data);
               }
             });
@@ -167,7 +168,6 @@ io.on("connection", function (socket) {
       another(true, "");
 
       file = data.val + ".json";
-      console.log("S");
       if (!fs.existsSync(struktury_dir + file)) return;
 
       send(file, function (data) {
@@ -189,7 +189,6 @@ io.on("connection", function (socket) {
     });
 
     socket.on("add_struktura", function (data) {
-      console.log("s");
 
       nazwa = data.numer;
       numer = data.numer;
@@ -221,6 +220,25 @@ io.on("connection", function (socket) {
         }
       );
     });
+
+    socket.on("add_polowanie", function(data) {
+
+      jsonString = {
+        numer: data.numer,
+        data: data.data,
+        teren: data.teren,
+        mysliwi: data.mysliwi,
+        budzet: data.budzet,
+        dystans: data.dystans,
+        znalezione_struktury: data.znalezione_struktury,
+        wynik: data.wynik,
+      };
+
+      fs.appendFileSync(
+        `${polowania_dir}${data.numer}.json`,
+        JSON.stringify(jsonString)
+      );
+    })
 
     setTimeout(() => {
       if (!logged) {

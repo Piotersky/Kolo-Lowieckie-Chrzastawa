@@ -4,69 +4,72 @@ var socket = io({
   },
 });
 
-const parentDiv = document.getElementById('struktury');
+const parentDiv = document.getElementById("struktury");
 
 socket.on("struktura", (data) => {
-  number = data.number;
 
+  let text = "";
+  let numer = data.numer;
+
+  if (data.numer.startsWith("n")) {
+    numer = "nieponumerowana";
+  }
   if (data.rodzaj == 1) {
-    text = "Ambona " + number;
+    text = "Ambona " + numer;
   }
   if (data.rodzaj == 2) {
-    text = "Zwyżka " + number;
+    text = "Zwyżka " + numer;
   }
   if (data.rodzaj == 3) {
-    text = "Wysiadka " + number;
+    text = "Wysiadka " + numer;
   }
 
   if (data.buffer == "") {
     parentDiv.innerHTML +=
       '<div class="struktura" id="div' +
-      number +
-      '" onmouseleave="leave(' +
-      number +
+      +'" onmouseleave="leave(' +
+      data.numer +
       ', )" onmouseover="hover(' +
-      number +
+      data.numer +
       ')"><p class="title" id="title' +
-      number +
+      data.numer +
       '">' +
       text +
       '</p><p class="desc" id="desc' +
-      number +
+      data.numer +
       '">🔢Numer: ' +
-      data.number +
+      numer +
       "<br>📒Polowanie: " +
       data.polowanie +
       '</p><img id="img' +
-      number +
+      data.numer +
       '" class="img" src="client/img/no_img.png"></div>';
     return;
   }
+  console.log("S")
 
   parentDiv.innerHTML +=
     '<div class="struktura" id="div' +
-    number +
+    data.numer +
     '" onmouseleave="leave(' +
-    number +
+    data.numer +
     ', )" onmouseover="hover(' +
-    number +
+    data.numer +
     ')"><p class="title" id="title' +
-    number +
+    data.numer +
     '">' +
     text +
     '</p><p class="desc" id="desc' +
-    number +
+    data.numer +
     '">🔢Numer: ' +
-    data.number +
+    numer +
     "<br>📒Polowanie: " +
     data.polowanie +
     '</p><img id="img' +
-    number +
+    data.numer +
     '" class="img" src="data:image/png;base64, ' +
     data.buffer +
     '"></div>';
-
-  console.log(data);
 });
 
 var szukaj = document.getElementById("szukaj");
@@ -114,16 +117,16 @@ function leave(numer) {
 }
 
 szukaj.addEventListener("click", () => {
-  const struktury = Array.from(document.getElementsByClassName('struktura'))
+  const struktury = Array.from(document.getElementsByClassName("struktura"));
 
   struktury.forEach((div) => {
     div.remove();
   });
 
-  ambony = document.getElementById("ambony").checked
-  zwyżki = document.getElementById("zwyżki").checked
-  wysiadki = document.getElementById("wysiadki").checked
-  wszystkie = document.getElementById("wszystkie").checked
+  ambony = document.getElementById("ambony").checked;
+  zwyżki = document.getElementById("zwyżki").checked;
+  wysiadki = document.getElementById("wysiadki").checked;
+  wszystkie = document.getElementById("wszystkie").checked;
 
   /*array = [false, false, true, false]
 
@@ -131,12 +134,12 @@ szukaj.addEventListener("click", () => {
 
   checked = "wszystkie"*/
 
-  array = [ambony, zwyżki, wysiadki, wszystkie]
+  array = [ambony, zwyżki, wysiadki, wszystkie];
 
   search = {
     val: document.getElementById("znajdz").value,
     rodzaj: array,
-  }
+  };
 
   socket.emit("search", search);
 });

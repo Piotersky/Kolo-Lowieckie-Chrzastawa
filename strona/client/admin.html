@@ -23,7 +23,7 @@
         <li>
           <h1>Struktura</h1>
 
-          <input type="text" placeholder="Wpisz numer struktury" id="numer" />
+          <input type="text" placeholder="Wpisz numer struktury" id="numer_s" />
           <br />Podpowiedź: Jeżeli jest nieponumerowana zostaw to pole puste
 
           <br /><br />Rodzaj struktury<select id="rodzaj">
@@ -37,19 +37,73 @@
           ></select>
 
           <br />
-          <br><input type="file" id="file" value="Wybierz zdjęcie" accept="image/*"/>
+          <br /><input
+            type="file"
+            id="file"
+            value="Wybierz zdjęcie"
+            accept="image/*"
+          />
 
-          <br><br>Współrzędne x <input type="text" placeholder="np. 21.546873" id="coord_x"/>
-          <br>Współrzędne y <input placeholder="np. 56.68975" type="text" id="coord_y"/>
+          <br /><br />Współrzędne x
+          <input type="text" placeholder="np. 21.546873" id="coord_x" />
+          <br />Współrzędne y
+          <input placeholder="np. 56.68975" type="text" id="coord_y" />
 
-          <br /><br /><br /><button id="add_struktura_btn">Dodaj!</button>
+          <br /><br /><br /><button id="add_s_btn">Dodaj!</button>
         </li>
         <li>
           <h1>Polowanie</h1>
 
-          <input type="text" placeholder="Wpisz numer polowania" id="s" />
+          <input
+            type="number"
+            placeholder="Wpisz numer polowania"
+            id="numer_p"
+          />
 
-          <button>Dodaj!</button>
+          <br /><br /><input
+            type="text"
+            placeholder="Wpisz datę polowania (??.??.????)"
+            id="data"
+          />
+
+          <br /><br /><input
+            type="text"
+            placeholder="Wpisz teren, na którym odbyło się polowanie (nazwy miejscowości itd.)"
+            id="teren"
+          />
+
+          <br /><br /><input
+            type="text"
+            placeholder="Wpisz myśliwych będących na polowaniu (?, ?, ...)"
+            id="mysliwi"
+          />
+
+          <br /><br /><input
+            type="text"
+            placeholder="Wpisz budżet polowania (zł)"
+            id="budzet"
+          />
+
+          <br /><br /><input
+            type="text"
+            placeholder="Wpisz dystans, który został przejechany na tym polowaniu (km)"
+            id="dystans"
+          />
+
+          <br /><br /><input
+            type="text"
+            placeholder="Wpisz liczbę struktur, które zostały znalezione na tym polowaniu (?, ?, ?)"
+            id="znalezione_struktury"
+          />
+
+          <br /><br />Wynik łowów<select id="wynik">
+            <option value="1">Kapitalny</option>
+            <option value="2">Zadowalający</option>
+            <option value="3">Słaby</option>
+            <option value="4">Zły</option>
+          </select>
+
+          <br /><br /><br /><button id="add_p_btn">Dodaj!</button>
         </li>
       </ul>
     </main>

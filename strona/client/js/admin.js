@@ -55,37 +55,47 @@ socket.on("Authenticated", (data) => {
     }
 }*/
 
-var struktura_btn = document.getElementById("add_struktura_btn");
+var struktura_btn = document.getElementById("add_s_btn");
 var file_input = document.getElementById("file");
 
-file_input.addEventListener("change", function(){
-
+file_input.addEventListener("change", function () {
   struktura_btn.addEventListener("click", () => {
-    
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.addEventListener("load", () => {
-        var uploaded_image = reader.result
-        //console.log(uploaded_image)
+      var uploaded_image = reader.result;
 
-        
+      data = {
+        img: uploaded_image,
+        numer: document.getElementById("numer_s").value,
+        rodzaj: document.getElementById("rodzaj").value,
+        coord_x: document.getElementById("coord_x").value,
+        coord_y: document.getElementById("coord_y").value,
+        polowanie: document.getElementById("polowanie").value,
+      };
 
-        data = {
-          img: uploaded_image,
-          numer: document.getElementById("numer").value,
-          rodzaj: document.getElementById("rodzaj").value,
-          coord_x: document.getElementById("coord_x").value,
-          coord_y: document.getElementById("coord_y").value,
-          polowanie: document.getElementById("polowanie").value
-        }
-
-        console.log(data)
-
-        socket.emit("add_struktura", data)
-    })
-    reader.readAsDataURL(this.files[0])
-  
+      console.log(data);
+      socket.emit("add_struktura", data);
+    });
+    reader.readAsDataURL(this.files[0]);
   });
-})
+});
+
+var polowanie_btn = document.getElementById("add_p_btn");
+polowanie_btn.addEventListener("click", () => {
+  
+  data = {
+    numer: document.getElementById("numer_p").value,
+    data: document.getElementById("data").value,
+    teren: document.getElementById("teren").value,
+    mysliwi: document.getElementById("mysliwi").value,
+    budzet: document.getElementById("budzet").value,
+    dystans: document.getElementById("dystans").value,
+    znalezione_struktury: document.getElementById("znalezione_struktury").value,
+    wynik: document.getElementById("wynik").value
+  }
+
+  socket.emit("add_polowanie", data)
+});
 
 setTimeout(() => {
   if (logged == false) {

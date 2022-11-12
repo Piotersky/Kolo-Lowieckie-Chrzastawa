@@ -179,7 +179,7 @@ class abot(discord.Client):
                 )
                 embedVar.add_field(
                     name="📝Wynik łowów",
-                    value=numer,
+                    value=wynik,
                     inline=False
                 )
 
