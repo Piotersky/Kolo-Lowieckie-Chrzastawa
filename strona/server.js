@@ -49,9 +49,9 @@ io.on("connection", function (socket) {
   const readFile = promisify(fs.readFile);
   const exists = promisify(fs.exists);
 
-  data_dir = "../data/";
-  struktury_dir = "../data/struktury/";
-  polowania_dir = "../data/polowania/";
+  data_dir = "./data/";
+  struktury_dir = data_dir + "struktury/";
+  polowania_dir = data_dir + "polowania/";
 
   if (socket.handshake.headers["subpage"] === "struktury") {
     async function getBuffer(filePath) {
@@ -117,7 +117,7 @@ io.on("connection", function (socket) {
           }
           if (!multiple) {
             send(file, function (data) {
-              console.log(data.numer)
+              console.log(data.numer);
               if (data.number.startsWith("n")) {
                 socket.emit("struktura", data);
               }
@@ -189,7 +189,6 @@ io.on("connection", function (socket) {
     });
 
     socket.on("add_struktura", function (data) {
-
       nazwa = data.numer;
       numer = data.numer;
       if (nazwa == "") {
@@ -219,10 +218,23 @@ io.on("connection", function (socket) {
           console.log("File created");
         }
       );
+
+      const { Client, Events, GatewayIntentBits } = require("discord.js");
+
+      // Create a new client instance
+      const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+      // When the client is ready, run this code (only once)
+      // We use 'c' for the event parameter to keep it separate from the already defined 'client'
+      client.once(Events.ClientReady, (c) => {
+        console.log(`Ready! Logged in as ${c.user.tag}`);
+      });
+
+      // Log in to Discord with your client's token
+      client.login("");
     });
 
-    socket.on("add_polowanie", function(data) {
-
+    socket.on("add_polowanie", function (data) {
       jsonString = {
         numer: data.numer,
         data: data.data,
@@ -238,7 +250,7 @@ io.on("connection", function (socket) {
         `${polowania_dir}${data.numer}.json`,
         JSON.stringify(jsonString)
       );
-    })
+    });
 
     setTimeout(() => {
       if (!logged) {

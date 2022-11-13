@@ -46,7 +46,6 @@ socket.on("struktura", (data) => {
       '" class="img" src="client/img/no_img.png"></div>';
     return;
   }
-  console.log("S")
 
   parentDiv.innerHTML +=
     '<div class="struktura" id="div' +
