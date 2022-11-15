@@ -7,12 +7,11 @@ var socket = io({
 const parentDiv = document.getElementById("struktury");
 
 socket.on("struktura", (data) => {
-
   let text = "";
   let numer = data.numer;
 
   if (data.numer.startsWith("n")) {
-    numer = "nieponumerowana";
+    numer = "bez numeru";
   }
   if (data.rodzaj == 1) {
     text = "Ambona " + numer;
@@ -27,10 +26,15 @@ socket.on("struktura", (data) => {
   if (data.buffer == "") {
     parentDiv.innerHTML +=
       '<div class="struktura" id="div' +
-      +'" onmouseleave="leave(' +
       data.numer +
-      ', )" onmouseover="hover(' +
+      '" onmouseleave="leave(' +
+      "'" +
       data.numer +
+      "'" +
+      ')" onmouseover="hover(' +
+      "'" +
+      data.numer +
+      "'" +
       ')"><p class="title" id="title' +
       data.numer +
       '">' +
@@ -51,9 +55,13 @@ socket.on("struktura", (data) => {
     '<div class="struktura" id="div' +
     data.numer +
     '" onmouseleave="leave(' +
+    "'" +
     data.numer +
-    ', )" onmouseover="hover(' +
+    "'" +
+    ')" onmouseover="hover(' +
+    "'" +
     data.numer +
+    "'" +
     ')"><p class="title" id="title' +
     data.numer +
     '">' +
