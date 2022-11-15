@@ -2,15 +2,16 @@ const { Client, Collection, GatewayIntentBits, ActivityType } = require("discord
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const config = require("./src/config.js");
 const { readdirSync } = require("fs")
-//const { REST } = require('@discordjs/rest');
-//const { Routes } = require('discord-api-types/v10');
+const moment = require("moment");
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v10');
 const log = require("./src/utils/log")
 
 let token = config.token
 
 client.commands = new Collection()
 
-//const rest = new REST({ version: '10' }).setToken(token);
+const rest = new REST({ version: '10' }).setToken(token);
 
 //command-handler
 const commands = [];
