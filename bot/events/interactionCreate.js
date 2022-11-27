@@ -8,8 +8,8 @@ const { readdirSync } = require("fs");
    if (interaction.type == InteractionType.ApplicationCommand) {
    if(interaction.user.bot) return;
 
-	readdirSync('./src/commands').forEach(file => {
-        const command = require(`../../src/commands/${file}`);
+	readdirSync('./bot/commands').forEach(file => {
+        const command = require(`../../bot/commands/${file}`);
         if(interaction.commandName.toLowerCase() === command.data.name.toLowerCase()) {
         command.run(client, interaction)
     }

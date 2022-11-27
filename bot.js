@@ -1,11 +1,10 @@
-const { Client, Collection, GatewayIntentBits, ActivityType } = require("discord.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-const config = require("./src/config.js");
+const config = require("./bot/config.js");
 const { readdirSync } = require("fs")
-const moment = require("moment");
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
-const log = require("./src/utils/log")
+const log = require("./bot/utils/log")
 
 let token = config.token
 
@@ -15,8 +14,8 @@ const rest = new REST({ version: '10' }).setToken(token);
 
 //command-handler
 const commands = [];
-readdirSync('./src/commands').forEach(async file => {
-  const command = require(`./src/commands/${file}`);
+readdirSync('./bot/commands').forEach(async file => {
+  const command = require(`./bot/commands/${file}`);
   commands.push(command.data.toJSON());
   client.commands.set(command.data.name, command);
 })
@@ -35,8 +34,8 @@ client.on("ready", async () => {
 })
 
 //event-handler
-readdirSync('./src/events').forEach(async file => {
-	const event = require(`./src/events/${file}`);
+readdirSync('./bot/events').forEach(async file => {
+	const event = require(`./bot/events/${file}`);
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args));
 	} else {

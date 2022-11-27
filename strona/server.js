@@ -2,7 +2,7 @@ const express = require("express");
 var cors = require("cors");
 const { Server } = require("socket.io");
 const http = require("http");
-const log = require("../src/utils/log");
+const log = require("../bot/utils/log");
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = (client) => {
